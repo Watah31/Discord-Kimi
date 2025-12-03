@@ -1,4 +1,4 @@
-// bot.js  – Discord bot + full debug (404 hunt)
+// bot.js  – Discord bot + correct Moonshot endpoint & header
 const { Client, GatewayIntentBits, Partials } = require('discord.js');
 const axios   = require('axios');
 const FormData= require('form-data');
@@ -29,8 +29,8 @@ client.on('messageCreate', async msg => {
   }
 
   try {
-    const {data} = await axios.post('https://api.moonshot.cn/v1/chat', form,
-      {headers: {...form.getHeaders(), Authorization:`Bearer ${MOONSHOT_KEY}`}});
+    const {data} = await axios.post('https://api.moonshot.cn/chat', form,
+      {headers: {...form.getHeaders(), Authorization: `Bearer ${MOONSHOT_KEY}`}});
     const reply = data.choices?.[0]?.message || 'No response';
     console.log('CHANNEL:', msg.channel.id, 'MESSAGE:', msg.id);
     await msg.reply(reply.slice(0, 2000));
