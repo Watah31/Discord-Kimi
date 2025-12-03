@@ -1,4 +1,4 @@
-// bot.js  – Discord bot + debug log (404 hunt)
+// bot.js  – Discord bot + full debug (404 hunt)
 const { Client, GatewayIntentBits, Partials } = require('discord.js');
 const axios   = require('axios');
 const FormData= require('form-data');
@@ -32,11 +32,12 @@ client.on('messageCreate', async msg => {
     const {data} = await axios.post('https://api.moonshot.cn/chat', form,
       {headers: {...form.getHeaders(), Authorization:`Bearer ${MOONSHOT_KEY}`}});
     const reply = data.choices?.[0]?.message || 'No response';
-    console.log('Replying to channel:', msg.channel.id, 'message:', msg.id); // debug
+    console.log('CHANNEL:', msg.channel.id, 'MESSAGE:', msg.id);
     await msg.reply(reply.slice(0, 2000));
   } catch (e) {
-    console.error(e.message);
-    await msg.reply('Error: ' + e.message);
+    console.log('CHANNEL:', msg.channel.id, 'MESSAGE:', msg.id);
+    console.error('Discord reply error:', e.message, e.response?.data);
+    await msg.reply('Debug: ' + JSON.stringify(e.response?.data || e.message));
   }
 });
 
