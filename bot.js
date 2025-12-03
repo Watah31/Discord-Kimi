@@ -1,4 +1,4 @@
-// bot.js  – Discord bot + health route for Render
+// bot.js  – Discord bot + health route (404 fixed)
 const { Client, GatewayIntentBits, Partials } = require('discord.js');
 const axios   = require('axios');
 const FormData= require('form-data');
@@ -29,7 +29,7 @@ client.on('messageCreate', async msg => {
   }
 
   try {
-    const {data} = await axios.post('https://api.moonshot.cn/v1/chat', form,
+    const {data} = await axios.post('https://api.moonshot.cn/chat', form,
       {headers: {...form.getHeaders(), Authorization:`Bearer ${MOONSHOT_KEY}`}});
     const reply = data.choices?.[0]?.message || 'No response';
     await msg.reply(reply.slice(0, 2000));
