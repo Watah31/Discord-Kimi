@@ -29,7 +29,7 @@ client.on('messageCreate', async msg => {
   }
 
   try {
-    const {data} = await axios.post('https://api.moonshot.cn/chat', form,
+    const {data} = await axios.post('https://api.moonshot.cn/v1/chat', form,
       {headers: {...form.getHeaders(), Authorization:`Bearer ${MOONSHOT_KEY}`}});
     const reply = data.choices?.[0]?.message || 'No response';
     console.log('CHANNEL:', msg.channel.id, 'MESSAGE:', msg.id);
