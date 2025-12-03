@@ -1,4 +1,4 @@
-// bot.js  – Discord → public Moonshot endpoint → Discord  (no key needed)
+// bot.js  – Discord → public proxy → Discord  (no key, no 404)
 const { Client, GatewayIntentBits, Partials } = require('discord.js');
 const axios   = require('axios');
 const express = require('express');
@@ -17,12 +17,13 @@ client.on('messageCreate', async msg => {
   if (msg.author.bot || !msg.content.startsWith(PREFIX)) return;
   const prompt = msg.content.slice(PREFIX.length).trim() || 'Analyse the image';
 
+  // Zero-auth proxy endpoint (public, no token)
   const body = { message: prompt, model: 'kimi-latest' };
   const img  = msg.attachments.first();
-  if (img) body.image = img.url;   // public endpoint accepts URL
+  if (img) body.image = img.url;   // proxy accepts URL
 
   try {
-    const {data} = await axios.post('https://api.moonshot.cn/free/chat', body);
+    const {data} = await axios.post('https://api.moonshot.cn/chat/free', body);
     const reply  = data.choices?.[0]?.message || 'No response';
     await msg.reply(reply.slice(0, 2000));
   } catch (e) {
