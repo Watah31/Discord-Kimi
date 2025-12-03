@@ -1,4 +1,4 @@
-// bot.js  – Discord → POST to this chat → Discord  (no external URL)
+// bot.js  – Discord → POST to **this chat** → Discord  (zero external URL)
 const { Client, GatewayIntentBits, Partials } = require('discord.js');
 const axios   = require('axios');
 const express = require('express');
